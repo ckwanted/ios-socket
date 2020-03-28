@@ -32,18 +32,34 @@ class ViewController: UIViewController {
 //            try client.write(eugenioData.getData())
             try client.write(&eugenioData, length: MemoryLayout<EugenioData>.size)
             
-            var arrayRecived: [UInt8] = [0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07]
+            let arrayRecived: [UInt8] = [0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07]
             
             // Example 1
-            let rawPointer = UnsafeRawPointer(arrayRecived)
-            let pointer = rawPointer.assumingMemoryBound(to: EugenioData.self)
-            let value = pointer.pointee
-            print(value)
+//            let rawPointer = UnsafeRawPointer(arrayRecived)
+//            let pointer = rawPointer.assumingMemoryBound(to: EugenioData.self)
+//            let value = pointer.pointee
+//            print(value)
             
             // Example 2
-            let x = UnsafeRawPointer(&arrayRecived)
-            let y = x.bindMemory(to: EugenioData.self, capacity: MemoryLayout<EugenioData>.size)
-            print(y.pointee)
+//            let x = UnsafeRawPointer(arrayRecived)
+//            let y = x.bindMemory(to: EugenioData.self, capacity: MemoryLayout<EugenioData>.size)
+//            print(y.pointee)
+            
+            // Recieved example 1
+//            var recieved = EugenioData(header: 0, data: 0, crc: 0)
+//            print(recieved)
+//            _ = try client.read(&recieved, size: MemoryLayout<EugenioData>.size)
+//            print(recieved)
+            
+            // Recieved example 2
+            var buffer = Array<UInt8>(repeating: 0, count: 64)
+            print(buffer)
+            let length2 = try client.read(&buffer, size: buffer.count)
+            print(length2)
+            print(buffer)
+            let ptr2 = UnsafeRawPointer(buffer)
+            let z = ptr2.bindMemory(to: EugenioData.self, capacity: MemoryLayout<EugenioData>.size)
+            print(z.pointee)
             
         }
         catch {
@@ -56,13 +72,11 @@ class ViewController: UIViewController {
 
 extension UInt32 {
     
-    /// Data representation for a UInt32 value
     var data: Data {
         var int = self
         return Data(bytes: &int, count: MemoryLayout<UInt32>.size)
     }
     
-    /// UInt8 array representation for a UInt32 value
     var byteArrayLittleEndian: [UInt8] {
         return [
             UInt8(self & 0x000000FF),
