@@ -1,0 +1,16 @@
+PODS:
+  - Socket.swift (2.4.0)
+
+DEPENDENCIES:
+  - Socket.swift (~> 2.4)
+
+SPEC REPOS:
+  trunk:
+    - Socket.swift
+
+SPEC CHECKSUMS:
+  Socket.swift: 4af9137d6b2d2dec00efd8b007704d0af3c3f27a
+
+PODFILE CHECKSUM: cb8b5426a9212e585b2937353e6bbad0f31e405d
+
+COCOAPODS: 1.8.3
